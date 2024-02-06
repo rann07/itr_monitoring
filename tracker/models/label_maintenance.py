@@ -40,3 +40,23 @@ class LabelQcc(models.Model):
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
     qcc_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+
+
+class LabelBir(models.Model):
+    _name = 'label.bir'
+    _description = "BIR for Label Selection"
+
+    name = fields.Char(string="Label")
+    active = fields.Boolean(string="Active")
+    color = fields.Integer(string="Color")
+    qcc_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+
+
+class LabelSec(models.Model):
+    _name = 'label.sec'
+    _description = "SEC for Label Selection"
+
+    name = fields.Char(string="Label")
+    active = fields.Boolean(string="Active")
+    color = fields.Integer(string="Color")
+    qcc_id = fields.Many2one(string="Checklist", comodel_name='main.view')

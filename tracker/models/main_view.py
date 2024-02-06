@@ -156,30 +156,16 @@ class MainView(models.Model):
             else:
                 record.total_time = 0.0
 
-    # BIR FILING
-    # bir_itr_form = fields.Boolean(string="ITR FORM", tracking=True)
-    # bir_trrc = fields.Boolean(string="TRRC", tracking=True)
-    # bir_iar = fields.Boolean(string="IAR", tracking=True)
-    # bir_itr = fields.Boolean(string="SMR for ITR", tracking=True)
-    # bir_afs = fields.Boolean(string="AFS", tracking=True)
-    # bir_form1709 = fields.Boolean(string="1709 Form", tracking=True)
-    # bir_sawt = fields.Boolean(string="SAWT", tracking=True)
-    # bir_sawt_validation = fields.Boolean(string="SAWT Validation", tracking=True)
-    # bir_others = fields.Boolean(string="Other Attachments (specify)", tracking=True)
-    # bir_text_others = fields.Char()
-    # # SEC FILING
-    # sec_eafs = fields.Boolean(string="EAFS Submission Receipt", tracking=True)
-    # sec_iar = fields.Boolean(string="IAR", tracking=True)
-    # sec_fs = fields.Boolean(string="SMR for FS", tracking=True)
-    # sec_afs = fields.Boolean(string="AFS", tracking=True)
-    # sec_sws = fields.Boolean(string="SWS", tracking=True)
-    # Label
-    label_note_ids = fields.Many2many(string="Label", comodel_name='label.maintenance', inverse_name='label_id')
+    # LABEL
+    label_note_ids = fields.Many2many(string="Label", comodel_name='label.maintenance', inverse_name='label_id',
+                                      tracking=True)
     label_printer_ids = fields.Many2many(string="Printer Checklist", comodel_name='label.printer',
-                                         inverse_name='printer_id')
+                                         inverse_name='printer_id', tracking=True)
     label_sorter_ids = fields.Many2many(string="Sorter Checklist", comodel_name='label.sorter',
-                                        inverse_name='sorter_id')
+                                        inverse_name='sorter_id', tracking=True)
     label_qcc_ids = fields.Many2many(string="Quality Check Control Checklist",
-                                     comodel_name='label.qcc', inverse_name='qcc_id')
-    # bir_ids = fields.Many2many(string="B.I.R Checklist", comodel_name='printer', inverse_name='bir_id')
-    # sec_ids = fields.Many2many(string="S.E.C Checklist", comodel_name='printer', inverse_name='sec_id')
+                                     comodel_name='label.qcc', inverse_name='qcc_id', tracking=True)
+    label_bir_ids = fields.Many2many(string="B.I.R Checklist", comodel_name='label.bir', inverse_name='bir_id',
+                                     tracking=True)
+    label_sec_ids = fields.Many2many(string="S.E.C Checklist", comodel_name='label.sec', inverse_name='sec_id',
+                                     tracking=True)

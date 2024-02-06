@@ -109,5 +109,13 @@
                   name="QCC"
                   parent="menu_label_list_root"
                   action="label_qcc_view_action"/>
+        <menuitem id="menu_bir_list_client"
+                  name="BIR"
+                  parent="menu_label_list_root"
+                  action="label_bir_view_action"/>
+        <menuitem id="menu_sec_list_client"
+                  name="SEC"
+                  parent="menu_label_list_root"
+                  action="label_sec_view_action"/>
     </data>
 </odoo>

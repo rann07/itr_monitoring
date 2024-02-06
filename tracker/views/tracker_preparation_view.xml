@@ -78,8 +78,7 @@
                     <!--                                attrs="{'invisible': ['|',('revision', '!=', 'done'),('state', '!=', 'filing')]}"-->
                     <!--                                groups="tracker.filing_group"/>-->
                     <!--                    </header>-->
-                    <field name="state" widget="statusbar" attrs="{'invisible': [('state', '==', 'filed')]}"
-                           status_invisible="preparation,checking,review,initial_approval,proofread,final_checking,final_review,final_approval,final_proofread,iar_review,printing,sorting,filing,filed"/>
+                    <field name="state" widget="statusbar" attrs="{'invisible': [('state', '==', 'filed')]}"/>
                     <sheet>
                         <div>
                             <span style="float:right">
@@ -94,6 +93,7 @@
                         <div>
                             <group>
                                 <field name="label_note_ids" widget="many2many_tags"
+                                       attrs="{'readonly':[('state','=', 'filed')]}"
                                        options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>
                             </group>
                             <group>
@@ -124,10 +124,14 @@
                                                options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>
                                     </group>
                                     <group string="B.I.R Checklist">
-
+                                        <field name="label_bir_ids" widget="many2many_tags" nolabel="1"
+                                               attrs="{'readonly': ['|','|','|',('state', '=', 'printing'),('state', '=', 'sorting'),('state', '=', 'qcc'),('state', '=', 'filed')]}"
+                                               options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>
                                     </group>
                                     <group string="S.E.C Checklist">
-
+                                        <field name="label_sec_ids" widget="many2many_tags" nolabel="1"
+                                               attrs="{'readonly': ['|','|','|',('state', '=', 'printing'),('state', '=', 'sorting'),('state', '=', 'sorting'),('state', '=', 'filed')]}"
+                                               options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>
                                     </group>
                                 </group>
                             </div>
@@ -135,18 +139,16 @@
                             <!--                                <field name="qcc_ids" widget="many2many_tags"-->
                             <!--                                       options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>-->
                             <!--                            </group>-->
-                            <!--                            <group attrs="{'invisible': [('state', '!=', 'filing')]}">-->
-                            <!--                                <field name="bir_ids" widget="many2many_tags"-->
-                            <!--                                       options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>-->
-                            <!--                                <field name="sec_ids" widget="many2many_tags"-->
-                            <!--                                       options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>-->
-                            <!--                            </group>-->
+                            <!--                                                        <group attrs="{'invisible': [('state', '!=', 'filing')]}">-->
+                            <!--                                                            <field name="bir_ids" widget="many2many_tags"-->
+                            <!--                                                                   options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>-->
+                            <!--                                                            <field name="sec_ids" widget="many2many_tags"-->
+                            <!--                                                                   options="{'no_open': True,'no_create': True,'color_field': 'color'}"/>-->
+                            <!--                                                        </group>-->
                         </div>
                     </sheet>
                 </form>
                 <div class="oe_chatter">
-                    <!--                    <field name="message_follower_ids"/>-->
-                    <!--                    <field name="activity_ids"/>-->
                     <field name="message_ids"/>
                 </div>
             </field>
@@ -155,7 +157,7 @@
         <record id="preparation_view_action" model="ir.actions.act_window">
             <field name="name">Client List</field>
             <field name="res_model">main.view</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('state','=','preparation')]</field>
             <field name="view_id" ref="main_tree_view"/>
         </record>
