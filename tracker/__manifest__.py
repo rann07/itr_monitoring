@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "ITR Tracker",
+    'name': "FSMS Tracker",
 
     'summary': """
         Income Tax Return Monitoring System""",
@@ -25,7 +25,8 @@
     'data': [
         'views/groups_view.xml',
         'security/ir.model.access.csv',
-        'views/main_view.xml',
+        'views/main_project_view.xml',
+        'views/task_view.xml',
         'views/tracker_process_view.xml',
         'views/tracker_preparation_view.xml',
         'views/label_note_view.xml',

@@ -9,7 +9,7 @@ class LabelMaintenance(models.Model):
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
     handles = fields.Char(string="Drag and Drop")
-    label_id = fields.Many2one(string="Label", comodel_name='main.view')
+    label_id = fields.Many2one(string="Label", comodel_name='task.view')
 
 
 class LabelPrinter(models.Model):
@@ -19,7 +19,7 @@ class LabelPrinter(models.Model):
     name = fields.Char(string="Label")
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
-    printer_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+    printer_id = fields.Many2one(string="Checklist", comodel_name='task.view')
 
 
 class LabelSorter(models.Model):
@@ -29,7 +29,7 @@ class LabelSorter(models.Model):
     name = fields.Char(string="Label")
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
-    sorter_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+    sorter_id = fields.Many2one(string="Checklist", comodel_name='task.view')
 
 
 class LabelQcc(models.Model):
@@ -39,7 +39,7 @@ class LabelQcc(models.Model):
     name = fields.Char(string="Label")
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
-    qcc_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+    qcc_id = fields.Many2one(string="Checklist", comodel_name='task.view')
 
 
 class LabelBir(models.Model):
@@ -49,7 +49,7 @@ class LabelBir(models.Model):
     name = fields.Char(string="Label")
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
-    qcc_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+    qcc_id = fields.Many2one(string="Checklist", comodel_name='task.view')
 
 
 class LabelSec(models.Model):
@@ -59,7 +59,7 @@ class LabelSec(models.Model):
     name = fields.Char(string="Label")
     active = fields.Boolean(string="Active")
     color = fields.Integer(string="Color")
-    qcc_id = fields.Many2one(string="Checklist", comodel_name='main.view')
+    qcc_id = fields.Many2one(string="Checklist", comodel_name='task.view')
 
 
 class RevisionStatus(models.Model):
@@ -68,7 +68,7 @@ class RevisionStatus(models.Model):
 
     name = fields.Char(string="Name")
     color = fields.Integer(string="Color")
-    revision_ids = fields.One2many(string="Name", comodel_name='main.view', inverse_name="revision_id")
+    revision_ids = fields.One2many(string="Name", comodel_name='task.view', inverse_name="revision_id")
 
 
 class StateLabels(models.Model):
@@ -76,4 +76,5 @@ class StateLabels(models.Model):
     _description = "Label of States"
 
     name = fields.Char(string="States")
-    state_id = fields.Many2one(string="Label", comodel_name='main.view')
+    color = fields.Integer(string="Color")
+    state_id = fields.Many2one(string="Label", comodel_name='task.view')

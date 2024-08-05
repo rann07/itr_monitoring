@@ -72,7 +72,7 @@
 
     <record id="fsms_staff_rule" model="ir.rule">
         <field name="name">Associate</field>
-        <field name="model_id" ref="model_main_view"/>
+        <field name="model_id" ref="model_task_view"/>
         <field name="domain_force">['|',('user_id','=',False),('user_id','=',user.id)]</field>
         <field name="groups" eval="[(4, ref('fsms_user_group'))]"/>
     </record>

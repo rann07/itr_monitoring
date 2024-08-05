@@ -1,8 +1,8 @@
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api
 
 
-class MainView(models.Model):
-    _name = 'main.view'
+class TaskView(models.Model):
+    _name = 'task.view'
     _description = "FSMS Monitoring"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'write_date'
@@ -32,7 +32,7 @@ class MainView(models.Model):
 
     def write(self, values):
         old_states = {rec.id: rec.state for rec in self}
-        res = super(MainView, self).write(values)
+        res = super(TaskView, self).write(values)
         for record in self:
             if 'state' in values and record.state != old_states.get(record.id):
                 self.env['state.history'].create({
@@ -40,33 +40,6 @@ class MainView(models.Model):
                     'state': record.state,
                 })
         return res
-
-    # @api.onchange('state')
-    # def _check_state_transition(self):
-    #     valid_transitions = {
-    #         'draft': ['preparation'],
-    #         'preparation': ['checking'],
-    #         'checking': ['review'],
-    #         'review': ['initial_approval'],
-    #         'initial_approval': ['proofread'],
-    #         'proofread': ['final_checking'],
-    #         'final_checking': ['final_review'],
-    #         'final_review': ['final_approval'],
-    #         'final_approval': ['final_proofread'],
-    #         'final_proofread': ['iar_review'],
-    #         'iar_review': ['printing'],
-    #         'printing': ['sorting'],
-    #         'sorting': ['qcc'],
-    #         'qcc': ['filing'],
-    #         'filing': ['filed'],
-    #         'filed': []  # No further transitions allowed from 'filed'
-    #     }
-    #
-    #     current_state = self._origin.state if self._origin else False
-    #     new_state = self.state
-    #
-    #     if current_state and new_state not in valid_transitions.get(current_state, []):
-    #         raise exceptions.ValidationError('Invalid movement transition')
 
     date = fields.Date(string="Time")
     order = fields.Integer(string='Order', default=0)
@@ -96,7 +69,7 @@ class MainView(models.Model):
         else:
             if vals.get('state') == 'filed':
                 vals['date_end'] = fields.Datetime.now()
-        return super(MainView, self).create(vals)
+        return super(TaskView, self).create(vals)
 
     def write(self, vals):
         if vals.get('state') == 'preparation':
@@ -104,7 +77,7 @@ class MainView(models.Model):
         else:
             if vals.get('state') == 'filed':
                 vals['date_end'] = fields.Datetime.now()
-        return super(MainView, self).write(vals)
+        return super(TaskView, self).write(vals)
 
     total_time = fields.Integer(string="Total Time", compute='_compute_total_time', store=True)
     revision_id = fields.Many2one(comodel_name='revision.status', string="Status", tracking=True)
@@ -141,9 +114,9 @@ class MainView(models.Model):
             self.progress_state = 0
 
     label_printer_ids = fields.Many2many(string="Checklist", comodel_name='label.printer', )
-    attachment_printer_ids = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_printer_rel",
-                                              column1="m2m_id", column2="attachment_id",
-                                              string="Attachment`")
+    # attachment_printer_ids = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_printer_rel",
+    #                                           column1="m2m_id", column2="attachment_id",
+    #                                           string="Attachment`")
     printer_filename = fields.Char(string="File")
     progress_printer = fields.Float(string='Printer Checklist', compute='_compute_progress_printer', store=True)
 
@@ -157,9 +130,9 @@ class MainView(models.Model):
             self.progress_printer = 0
 
     label_sorter_ids = fields.Many2many(string="Checklist", comodel_name='label.sorter')
-    attachment_sorter = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_sorter_rel",
-                                         column1="m2m_id", column2="attachment_id",
-                                         string="Attachment`")
+    # attachment_sorter = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_sorter_rel",
+    #                                      column1="m2m_id", column2="attachment_id",
+    #                                      string="Attachment`")
     sorter_filename = fields.Char(string="File")
     progress_sorter = fields.Float(string='Sorter Progress', compute='_compute_progress_sorter', store=True)
 
@@ -174,9 +147,9 @@ class MainView(models.Model):
 
     label_qcc_ids = fields.Many2many(string="Quality Check Control Checklist",
                                      comodel_name='label.qcc')
-    attachment_qcc = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_qcc_rel",
-                                      column1="m2m_id", column2="attachment_id",
-                                      string="Attachment`")
+    # attachment_qcc = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_qcc_rel",
+    #                                   column1="m2m_id", column2="attachment_id",
+    #                                   string="Attachment`")
     qcc_filename = fields.Char(string="File")
     progress_qcc = fields.Float(string='Progress', compute='_compute_progress_qcc', store=True)
 
@@ -190,9 +163,9 @@ class MainView(models.Model):
             self.progress_qcc = 0
 
     label_bir_ids = fields.Many2many(string="B.I.R Checklist", comodel_name='label.bir')
-    attachment_bir = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_bir_rel",
-                                      column1="m2m_id", column2="attachment_id",
-                                      string="Attachment`")
+    # attachment_bir = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_bir_rel",
+    #                                   column1="m2m_id", column2="attachment_id",
+    #                                   string="Attachment`")
     bir_filename = fields.Char(string="File")
     progress_bir = fields.Float(string='Progress', compute='_compute_progress_bir', store=True)
 
@@ -206,9 +179,9 @@ class MainView(models.Model):
             self.progress_bir = 0
 
     label_sec_ids = fields.Many2many(string="S.E.C Checklist", comodel_name='label.sec')
-    attachment_sec = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_sec_rel",
-                                      column1="m2m_id", column2="attachment_id",
-                                      string="Attachment`")
+    # attachment_sec = fields.Many2many(comodel_name="ir.attachment", relation="m2m_ir_attachment_sec_rel",
+    #                                   column1="m2m_id", column2="attachment_id",
+    #                                   string="Attachment`")
     sec_filename = fields.Char(string="File")
     progress_sec = fields.Float(string='Progress', compute='_compute_progress_sec', store=True)
 
@@ -221,11 +194,39 @@ class MainView(models.Model):
         else:
             self.progress_sec = 0
 
-    # def get_form_action(self):
-    #     return {
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'label.printer',  # Replace with the model you want to open
-    #         'view_mode': 'form',
-    #         'view_type': 'form',
-    #         'target': 'new',
-    #     }
+    fold_sign_off = fields.Boolean(string="Sign Off", default=True)
+    fold_checklist = fields.Boolean(string="Checklist", default=False)
+
+    def write(self, vals):
+        res = super(TaskView, self).write(vals)
+
+        if 'state' in vals:
+            for record in self:
+                label_name_map = {
+                    'preparation': 'Preparer',
+                    'checking': 'Checked',
+                    'review': 'Reviewed',
+                    'initial_approval': 'Approved',
+                    'proofread': 'Proofreader',
+                    'iar_review': 'IAR Review',
+                    'printing': 'Printer',
+                    'sorting': 'Sorter',
+                    'qcc': 'Quality Check Control',
+                    'filing': ['BIR Filing', 'SEC Filing'],
+                }
+
+                state = vals['state']
+                label_names = label_name_map.get(state)
+
+                if label_names:
+                    if isinstance(label_names, list):
+                        for label_name in label_names:
+                            related_record = self.env['state.labels'].search([('name', '=', label_name)], limit=1)
+                            if related_record:
+                                record.state_ids = [(4, related_record.id)]
+                    else:
+                        related_record = self.env['state.labels'].search([('name', '=', label_names)], limit=1)
+                        if related_record:
+                            record.state_ids = [(4, related_record.id)]
+
+            return res
